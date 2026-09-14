@@ -1,0 +1,10 @@
+{
+  "name": "CashFinder",
+  "short_name": "CashFinder",
+  "description": "Find practical ways to make extra money.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f3f4f6",
+  "theme_color": "#111827",
+  "icons": []
+}
