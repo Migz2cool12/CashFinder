@@ -1,0 +1,186 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f3f4f6;
+  color: #111827;
+}
+
+header {
+  background: #111827;
+  color: white;
+  text-align: center;
+  padding: 35px 15px;
+}
+
+.logo {
+  font-size: 45px;
+}
+
+header h1 {
+  margin: 5px 0;
+  font-size: 34px;
+}
+
+header p {
+  margin: 5px 0 0;
+  color: #d1d5db;
+}
+
+main {
+  max-width: 700px;
+  margin: auto;
+  padding: 15px;
+}
+
+.goal-card,
+.results {
+  background: white;
+  padding: 20px;
+  margin: 15px 0;
+  border-radius: 18px;
+  box-shadow: 0 4px 15px rgba(0,0,0,.08);
+}
+
+.goal-card h2,
+.results h2 {
+  margin-top: 0;
+}
+
+.goal-input {
+  display: flex;
+  align-items: center;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  padding: 0 12px;
+  margin-bottom: 10px;
+}
+
+.goal-input span {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.goal-input input {
+  border: 0;
+  outline: 0;
+  width: 100%;
+  padding: 15px;
+  font-size: 20px;
+}
+
+.primary-btn {
+  width: 100%;
+  border: 0;
+  border-radius: 12px;
+  padding: 15px;
+  background: #16a34a;
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+#goalDisplay {
+  margin-top: 15px;
+  font-size: 19px;
+  font-weight: bold;
+}
+
+.categories {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.category {
+  border: 0;
+  background: white;
+  border-radius: 18px;
+  padding: 20px 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,.08);
+  cursor: pointer;
+}
+
+.category div {
+  font-size: 32px;
+}
+
+.category strong {
+  display: block;
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+.category span {
+  display: block;
+  color: #6b7280;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.money-option {
+  padding: 15px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.money-option:last-child {
+  border-bottom: 0;
+}
+
+.money-option h3 {
+  margin: 0 0 7px;
+}
+
+.money-option p {
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+.tag {
+  display: inline-block;
+  background: #dcfce7;
+  color: #166534;
+  padding: 5px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.calc-input {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 17px;
+  margin-bottom: 10px;
+}
+
+.calc-btn {
+  width: 100%;
+  padding: 14px;
+  border: 0;
+  border-radius: 10px;
+  background: #111827;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+footer {
+  text-align: center;
+  color: #6b7280;
+  padding: 30px 15px;
+  font-size: 12px;
+}
+
+@media (max-width: 400px) {
+  .categories {
+    gap: 8px;
+  }
+
+  .category {
+    padding: 15px 5px;
+  }
+}
