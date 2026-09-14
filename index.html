@@ -1,149 +1,312 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#111827">
-  <meta name="description" content="CashFinder helps you discover ways to make extra money.">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#111827"
+  >
+
+  <meta
+    name="description"
+    content="CashFinder helps you discover ways to make extra money."
+  >
+
   <title>CashFinder</title>
+
   <link rel="stylesheet" href="style.css">
+
   <link rel="manifest" href="manifest.json">
+
 </head>
+
 
 <body>
 
+
 <header>
+
   <div class="logo">💰</div>
+
   <h1>CashFinder</h1>
-  <p>Find your next way to make money.</p>
+
+  <p>
+    Find ways to make extra money.
+  </p>
+
 </header>
+
 
 <main>
 
-  <section class="goal-card">
-    <h2>🎯 What's your money goal?</h2>
 
-    <div class="goal-input">
-      <span>$</span>
-      <input id="goalInput" type="number" placeholder="50">
-    </div>
+<!-- MONEY GOAL -->
 
-    <button class="primary-btn" onclick="setGoal()">Set My Goal</button>
+<section class="card">
 
-    <div id="goalDisplay">Your goal: $0.00</div>
-  </section>
+  <h2>🎯 Money Goal</h2>
 
-  <!-- FIND MONEY NEAR ME -->
+  <div class="goal-input">
 
-  <section class="nearby-card">
-
-    <h2>📍 Find Money Near Me</h2>
-
-    <p>
-      Find jobs and money-making opportunities in your area.
-    </p>
-
-    <button class="location-btn" onclick="findMoneyNearMe()">
-      📍 Find Money Near Me
-    </button>
-
-    <div id="locationStatus"></div>
-
-    <div id="nearbyResults"></div>
-
-  </section>
-
-  <section class="search-box">
-    <input
-      id="searchInput"
-      type="search"
-      placeholder="🔎 Search money opportunities..."
-      oninput="searchOpportunities()"
-    >
-  </section>
-
-  <section class="filters">
-
-    <button onclick="showAll()">All</button>
-
-    <button onclick="showCategory('quick')">
-      ⚡ Quick
-    </button>
-
-    <button onclick="showCategory('online')">
-      📱 Online
-    </button>
-
-    <button onclick="showCategory('local')">
-      📍 Local
-    </button>
-
-    <button onclick="showCategory('sell')">
-      📦 Sell
-    </button>
-
-    <button onclick="showCategory('rewards')">
-      🎁 Rewards
-    </button>
-
-  </section>
-
-  <section id="results" class="results">
-
-    <h2>🔥 Money Opportunities</h2>
-
-    <p>
-      Choose a category or search for an opportunity.
-    </p>
-
-  </section>
-
-  <section class="calculator-card">
-
-    <h2>🧮 Money Goal Calculator</h2>
+    <span>$</span>
 
     <input
-      class="calc-input"
-      id="earnPerTask"
+      id="goalInput"
       type="number"
-      placeholder="How much could you earn per task?"
+      min="1"
+      placeholder="50"
     >
 
-    <button class="calc-btn" onclick="calculateTasks()">
-      Calculate
+  </div>
+
+  <button
+    class="primary-btn"
+    onclick="setGoal()"
+  >
+    Set My Goal
+  </button>
+
+  <div id="goalDisplay">
+    Your goal: $0.00
+  </div>
+
+</section>
+
+
+<!-- PROGRESS -->
+
+<section class="card">
+
+  <h2>📊 Your Progress</h2>
+
+  <div class="progress-money">
+
+    <strong id="earnedDisplay">
+      $0.00
+    </strong>
+
+    <span id="goalProgressText">
+      of $0.00
+    </span>
+
+  </div>
+
+  <div class="progress-bar">
+
+    <div
+      id="progressFill"
+      class="progress-fill"
+    ></div>
+
+  </div>
+
+  <p id="progressPercent">
+    0% complete
+  </p>
+
+
+  <div class="earn-row">
+
+    <input
+      id="earnedInput"
+      type="number"
+      min="0"
+      placeholder="Add money earned"
+    >
+
+    <button
+      class="earn-btn"
+      onclick="addEarnedMoney()"
+    >
+      + Add
     </button>
 
-    <div id="calculatorResult"></div>
+  </div>
 
-  </section>
 
-</main>
+  <button
+    class="reset-btn"
+    onclick="resetProgress()"
+  >
+    Reset Progress
+  </button>
 
-<footer>
+</section>
 
-  <strong>CashFinder</strong>
+
+<!-- NEAR ME -->
+
+<section class="card nearby-card">
+
+  <h2>📍 Find Money Near Me</h2>
 
   <p>
-    Opportunities and earnings are not guaranteed.
+    Find jobs, gigs and selling opportunities in your area.
   </p>
+
+  <button
+    class="location-btn"
+    onclick="findMoneyNearMe()"
+  >
+    📍 Find Money Near Me
+  </button>
+
+  <div id="locationStatus"></div>
+
+  <div id="nearbyResults"></div>
+
+</section>
+
+
+<!-- SEARCH -->
+
+<section class="card">
+
+  <h2>🔎 Search</h2>
+
+  <input
+    id="searchInput"
+    class="search-input"
+    type="search"
+    placeholder="Search money opportunities..."
+    oninput="searchOpportunities()"
+  >
+
+</section>
+
+
+<!-- FILTERS -->
+
+<section class="filters">
+
+  <button onclick="showAll()">
+    All
+  </button>
+
+  <button onclick="showCategory('quick')">
+    ⚡ Quick
+  </button>
+
+  <button onclick="showCategory('online')">
+    📱 Online
+  </button>
+
+  <button onclick="showCategory('local')">
+    📍 Local
+  </button>
+
+  <button onclick="showCategory('sell')">
+    📦 Sell
+  </button>
+
+  <button onclick="showCategory('rewards')">
+    🎁 Rewards
+  </button>
+
+  <button onclick="showFavorites()">
+    ❤️ Favorites
+  </button>
+
+</section>
+
+
+<!-- SMART FILTERS -->
+
+<section class="smart-filters">
+
+  <button onclick="filterFree()">
+    🆓 Free to Start
+  </button>
+
+  <button onclick="filterFast()">
+    ⚡ Fast Payout
+  </button>
+
+  <button onclick="filterHighPotential()">
+    💵 Higher Potential
+  </button>
+
+</section>
+
+
+<!-- OPPORTUNITIES -->
+
+<section
+  id="results"
+  class="card results"
+>
+
+  <h2>
+    💵 Money Opportunities
+  </h2>
 
   <p>
-    Never pay someone simply because they promise guaranteed income.
+    Choose a category or search for an opportunity.
   </p>
 
-</footer>
+</section>
 
-<script src="app.js"></script>
 
-<script>
+<!-- CALCULATOR -->
 
-if ("serviceWorker" in navigator) {
+<section class="card">
 
-  navigator.serviceWorker.register("sw.js");
+  <h2>🧮 Goal Calculator</h2>
 
-}
+  <input
+    class="calc-input"
+    id="earnPerTask"
+    type="number"
+    min="0"
+    placeholder="How much could you earn per task?"
+  >
 
-</script>
+  <button
+    class="calc-btn"
+    onclick="calculateTasks()"
+  >
+    Calculate
+  </button>
 
-</body>
-</html>
+  <div id="calculatorResult"></div>
+
+</section>
+
+
+<!-- SAFETY -->
+
+<section class="scam-card">
+
+  <h2>🚨 Avoid Money-Making Scams</h2>
+
+  <ul>
+
+    <li>
+      Never send money to someone promising guaranteed income.
+    </li>
+
+    <li>
+      Be careful with requests for passwords or verification codes.
+    </li>
+
+    <li>
+      Research an opportunity before giving personal information.
+    </li>
+
+    <li>
+      Never deposit a check and send part of the money back.
+    </li>
+
+    <li>
+      If an offer sounds too good to be true, investigate it first.
+    </li>
+
+  </ul
