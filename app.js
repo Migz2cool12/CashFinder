@@ -1,112 +1,176 @@
-let moneyGoal = Number(localStorage.getItem("moneyGoal")) || 0;
+let moneyGoal =
+  Number(localStorage.getItem("moneyGoal")) || 0;
+
+let earnedMoney =
+  Number(localStorage.getItem("earnedMoney")) || 0;
+
+let favorites =
+  JSON.parse(localStorage.getItem("favorites") || "[]");
+
 
 const opportunities = [
 
   {
+    id: 1,
     category: "quick",
     title: "📦 Sell Items You Don't Need",
     description: "Turn unused electronics, games, clothes, furniture and other items into cash.",
-    tags: ["Free to start", "Potentially fast"],
+    tags: ["Free to start", "Fast potential"],
+    payout: "Potentially fast",
+    potential: "High",
+    free: true,
     link: "https://www.facebook.com/marketplace/"
   },
 
   {
+    id: 2,
     category: "quick",
     title: "🧹 Offer Local Services",
-    description: "Offer services such as cleaning, yard work, moving help, car washing or other tasks.",
-    tags: ["Local", "No special app required"],
+    description: "Offer cleaning, yard work, moving help, car washing and other local services.",
+    tags: ["Free to start", "Local"],
+    payout: "Potentially fast",
+    potential: "High",
+    free: true,
     link: "https://www.craigslist.org/"
   },
 
   {
+    id: 3,
     category: "online",
     title: "📝 Paid Surveys",
     description: "Some research companies pay eligible users for completing surveys.",
     tags: ["Online", "Free to start"],
+    payout: "Varies",
+    potential: "Low",
+    free: true,
     link: "https://www.branded-surveys.com/"
   },
 
   {
+    id: 4,
     category: "online",
     title: "💻 Freelancing",
-    description: "Offer skills such as writing, graphic design, editing, programming or virtual assistance.",
+    description: "Offer writing, graphic design, editing, programming, virtual assistance or other skills.",
     tags: ["Online", "Skills-based"],
+    payout: "Varies",
+    potential: "High",
+    free: true,
     link: "https://www.fiverr.com/"
   },
 
   {
+    id: 5,
     category: "online",
     title: "🧪 Website Testing",
-    description: "Some companies pay people to test websites and provide feedback.",
-    tags: ["Online", "May require approval"],
+    description: "Some companies pay approved participants to test websites and provide feedback.",
+    tags: ["Online", "Approval required"],
+    payout: "Varies",
+    potential: "Medium",
+    free: true,
     link: "https://www.usertesting.com/"
   },
 
   {
+    id: 6,
     category: "local",
     title: "🚗 Delivery & Gig Work",
     description: "Check legitimate delivery and gig platforms for opportunities in your area.",
     tags: ["Local", "Approval required"],
+    payout: "Varies",
+    potential: "Medium",
+    free: true,
     link: "https://www.indeed.com/"
   },
 
   {
+    id: 7,
     category: "local",
     title: "🏠 Local Jobs",
     description: "Search for part-time, temporary and entry-level jobs near you.",
     tags: ["Local", "Job search"],
+    payout: "Usually scheduled",
+    potential: "High",
+    free: true,
     link: "https://www.indeed.com/"
   },
 
   {
+    id: 8,
     category: "sell",
     title: "🎮 Sell Games & Consoles",
     description: "Compare offers for gaming systems, games and accessories you no longer use.",
-    tags: ["Reselling", "Electronics"],
+    tags: ["Free to start", "Electronics"],
+    payout: "Potentially fast",
+    potential: "High",
+    free: true,
     link: "https://www.gamestop.com/"
   },
 
   {
+    id: 9,
     category: "sell",
     title: "📱 Sell Electronics",
     description: "Phones, tablets, headphones and other electronics may have resale value.",
-    tags: ["Reselling", "Electronics"],
+    tags: ["Free to start", "Electronics"],
+    payout: "Potentially fast",
+    potential: "High",
+    free: true,
     link: "https://www.ebay.com/"
   },
 
   {
+    id: 10,
     category: "sell",
     title: "👕 Sell Clothing",
     description: "Resell clothing that is clean, wearable and in demand.",
-    tags: ["Reselling", "Online"],
+    tags: ["Free to start", "Online"],
+    payout: "Varies",
+    potential: "Medium",
+    free: true,
     link: "https://www.depop.com/"
   },
 
   {
+    id: 11,
     category: "rewards",
     title: "🛒 Cashback Opportunities",
     description: "Some established services offer cashback for qualifying purchases.",
-    tags: ["Cashback", "Terms apply"],
+    tags: ["Free to start", "Cashback"],
+    payout: "Varies",
+    potential: "Low",
+    free: true,
     link: "https://www.rakuten.com/"
   }
 
 ];
 
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener(
+  "DOMContentLoaded",
+  function () {
 
-  updateGoalDisplay();
+    updateGoalDisplay();
 
-  showAll();
+    updateProgress();
 
-});
+    showAll();
 
+  }
+);
+
+
+/* =========================
+   GOAL
+========================= */
 
 function setGoal() {
 
-  const input = document.getElementById("goalInput");
+  const input =
+    document.getElementById("goalInput");
 
-  const amount = Number(input.value);
+  const amount =
+    Number(input.value);
+
 
   if (amount <= 0) {
 
@@ -116,37 +180,195 @@ function setGoal() {
 
   }
 
+
   moneyGoal = amount;
 
-  localStorage.setItem("moneyGoal", moneyGoal);
+  localStorage.setItem(
+    "moneyGoal",
+    moneyGoal
+  );
+
 
   updateGoalDisplay();
+
+  updateProgress();
 
 }
 
 
 function updateGoalDisplay() {
 
-  document.getElementById("goalDisplay").textContent =
-    "🎯 Your goal: $" + moneyGoal.toFixed(2);
+  document.getElementById(
+    "goalDisplay"
+  ).textContent =
+    "🎯 Your goal: $" +
+    moneyGoal.toFixed(2);
 
 }
 
 
+/* =========================
+   EARNED MONEY
+========================= */
+
+function addEarnedMoney() {
+
+  const input =
+    document.getElementById("earnedInput");
+
+  const amount =
+    Number(input.value);
+
+
+  if (amount <= 0) {
+
+    alert("Enter the amount you earned.");
+
+    return;
+
+  }
+
+
+  earnedMoney += amount;
+
+
+  localStorage.setItem(
+    "earnedMoney",
+    earnedMoney
+  );
+
+
+  input.value = "";
+
+  updateProgress();
+
+}
+
+
+function updateProgress() {
+
+  const earned =
+    document.getElementById("earnedDisplay");
+
+  const goal =
+    document.getElementById("goalProgressText");
+
+  const fill =
+    document.getElementById("progressFill");
+
+  const percentText =
+    document.getElementById("progressPercent");
+
+
+  earned.textContent =
+    "$" + earnedMoney.toFixed(2);
+
+
+  goal.textContent =
+    "of $" + moneyGoal.toFixed(2);
+
+
+  if (moneyGoal <= 0) {
+
+    fill.style.width = "0%";
+
+    percentText.textContent =
+      "Set a goal to track progress.";
+
+    return;
+
+  }
+
+
+  let percent =
+    (earnedMoney / moneyGoal) * 100;
+
+
+  const displayPercent =
+    Math.min(percent, 100);
+
+
+  fill.style.width =
+    displayPercent + "%";
+
+
+  if (percent >= 100) {
+
+    percentText.textContent =
+      "🎉 Goal reached!";
+
+  } else {
+
+    percentText.textContent =
+      Math.round(percent) +
+      "% complete";
+
+  }
+
+}
+
+
+function resetProgress() {
+
+  const confirmReset =
+    confirm(
+      "Reset your earned money and goal?"
+    );
+
+
+  if (!confirmReset) {
+
+    return;
+
+  }
+
+
+  earnedMoney = 0;
+
+  moneyGoal = 0;
+
+
+  localStorage.removeItem(
+    "earnedMoney"
+  );
+
+  localStorage.removeItem(
+    "moneyGoal"
+  );
+
+
+  updateGoalDisplay();
+
+  updateProgress();
+
+}
+
+
+/* =========================
+   OPPORTUNITY DISPLAY
+========================= */
+
 function showAll() {
 
-  displayOpportunities(opportunities);
+  displayOpportunities(
+    opportunities
+  );
 
 }
 
 
 function showCategory(category) {
 
-  const filtered = opportunities.filter(
-    opportunity => opportunity.category === category
-  );
+  const filtered =
+    opportunities.filter(
+      opportunity =>
+        opportunity.category === category
+    );
 
-  displayOpportunities(filtered);
+
+  displayOpportunities(
+    filtered
+  );
 
 }
 
@@ -154,9 +376,12 @@ function showCategory(category) {
 function searchOpportunities() {
 
   const search =
-    document.getElementById("searchInput").value
+    document.getElementById(
+      "searchInput"
+    ).value
     .toLowerCase()
     .trim();
+
 
   if (!search) {
 
@@ -166,40 +391,150 @@ function searchOpportunities() {
 
   }
 
-  const filtered = opportunities.filter(opportunity => {
 
-    return (
+  const filtered =
+    opportunities.filter(
+      opportunity => {
 
-      opportunity.title.toLowerCase().includes(search) ||
+        return (
 
-      opportunity.description.toLowerCase().includes(search) ||
+          opportunity.title
+            .toLowerCase()
+            .includes(search)
 
-      opportunity.category.toLowerCase().includes(search) ||
+          ||
 
-      opportunity.tags.join(" ").toLowerCase().includes(search)
+          opportunity.description
+            .toLowerCase()
+            .includes(search)
 
+          ||
+
+          opportunity.category
+            .toLowerCase()
+            .includes(search)
+
+          ||
+
+          opportunity.tags
+            .join(" ")
+            .toLowerCase()
+            .includes(search)
+
+        );
+
+      }
     );
 
-  });
 
-  displayOpportunities(filtered);
+  displayOpportunities(
+    filtered
+  );
 
 }
 
 
-function displayOpportunities(list) {
+/* =========================
+   SMART FILTERS
+========================= */
 
-  const results = document.getElementById("results");
+function filterFree() {
 
-  if (list.length === 0) {
+  displayOpportunities(
+    opportunities.filter(
+      opportunity =>
+        opportunity.free
+    )
+  );
 
-    results.innerHTML = `
+}
+
+
+function filterFast() {
+
+  displayOpportunities(
+    opportunities.filter(
+      opportunity =>
+        opportunity.payout
+          .toLowerCase()
+          .includes("fast")
+    )
+  );
+
+}
+
+
+function filterHighPotential() {
+
+  displayOpportunities(
+    opportunities.filter(
+      opportunity =>
+        opportunity.potential === "High"
+    )
+  );
+
+}
+
+
+/* =========================
+   FAVORITES
+========================= */
+
+function toggleFavorite(id) {
+
+  if (favorites.includes(id)) {
+
+    favorites =
+      favorites.filter(
+        favoriteId =>
+          favoriteId !== id
+      );
+
+  } else {
+
+    favorites.push(id);
+
+  }
+
+
+  localStorage.setItem(
+    "favorites",
+    JSON.stringify(favorites)
+  );
+
+
+  showAll();
+
+}
+
+
+function showFavorites() {
+
+  const favoriteOpportunities =
+    opportunities.filter(
+      opportunity =>
+        favorites.includes(
+          opportunity.id
+        )
+    );
+
+
+  if (
+    favoriteOpportunities.length === 0
+  ) {
+
+    document.getElementById(
+      "results"
+    ).innerHTML = `
 
       <div class="empty">
 
-        <h2>😕 No opportunities found</h2>
+        <h2>❤️ No Favorites Yet</h2>
 
-        <p>Try another search.</p>
+        <p>
+          Tap the ❤️ button on an opportunity
+          to save it here.
+        </p>
 
       </div>
 
@@ -210,51 +545,151 @@ function displayOpportunities(list) {
   }
 
 
-  let html = "<h2>💵 Money Opportunities</h2>";
+  displayOpportunities(
+    favoriteOpportunities
+  );
+
+}
 
 
-  list.forEach(opportunity => {
+/* =========================
+   RENDER OPPORTUNITIES
+========================= */
 
-    const tags = opportunity.tags
+function displayOpportunities(list) {
 
-      .map(tag => `<span class="tag">${tag}</span>`)
+  const results =
+    document.getElementById(
+      "results"
+    );
 
-      .join("");
 
+  if (list.length === 0) {
 
-    html += `
+    results.innerHTML = `
 
-      <div class="money-option">
+      <div class="empty">
 
-        <h3>${opportunity.title}</h3>
+        <h2>😕 Nothing Found</h2>
 
-        <p>${opportunity.description}</p>
-
-        <div class="tags">
-
-          ${tags}
-
-        </div>
-
-        <a
-          class="opportunity-btn"
-          href="${opportunity.link}"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-
-          View Opportunity →
-
-        </a>
+        <p>
+          Try another search or filter.
+        </p>
 
       </div>
 
     `;
 
-  });
+    return;
+
+  }
 
 
-  results.innerHTML = html;
+  let html =
+    "<h2>💵 Money Opportunities</h2>";
+
+
+  list.forEach(
+    opportunity => {
+
+      const isFavorite =
+        favorites.includes(
+          opportunity.id
+        );
+
+
+      const tags =
+        opportunity.tags
+          .map(
+            tag => {
+
+              let className =
+                "tag";
+
+              if (
+                tag
+                  .toLowerCase()
+                  .includes("fast")
+              ) {
+
+                className += " fast";
+
+              }
+
+              if (
+                tag
+                  .toLowerCase()
+                  .includes("free")
+              ) {
+
+                className += " free";
+
+              }
+
+              return `
+                <span class="${className}">
+                  ${tag}
+                </span>
+              `;
+
+            }
+          )
+          .join("");
+
+
+      html += `
+
+        <div class="money-option">
+
+          <button
+            class="favorite-btn"
+            onclick="toggleFavorite(${opportunity.id})"
+            aria-label="Favorite"
+          >
+            ${isFavorite ? "❤️" : "🤍"}
+          </button>
+
+          <h3>
+            ${opportunity.title}
+          </h3>
+
+          <p>
+            ${opportunity.description}
+          </p>
+
+          <div class="tags">
+
+            ${tags}
+
+            <span class="tag">
+              💵 ${opportunity.potential} potential
+            </span>
+
+            <span class="tag">
+              ⏱️ ${opportunity.payout}
+            </span>
+
+          </div>
+
+          <a
+            class="opportunity-btn"
+            href="${opportunity.link}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View Opportunity →
+          </a>
+
+        </div>
+
+      `;
+
+    }
+  );
+
+
+  results.innerHTML =
+    html;
 
 }
 
@@ -263,17 +698,22 @@ function displayOpportunities(list) {
    FIND MONEY NEAR ME
 ========================= */
 
-
 function findMoneyNearMe() {
 
   const status =
-    document.getElementById("locationStatus");
+    document.getElementById(
+      "locationStatus"
+    );
 
   const results =
-    document.getElementById("nearbyResults");
+    document.getElementById(
+      "nearbyResults"
+    );
 
 
-  if (!navigator.geolocation) {
+  if (
+    !navigator.geolocation
+  ) {
 
     status.textContent =
       "Your browser does not support location services.";
@@ -287,42 +727,37 @@ function findMoneyNearMe() {
     "📍 Finding your location...";
 
 
-  results.innerHTML = "";
+  results.innerHTML =
+    "";
 
 
   navigator.geolocation.getCurrentPosition(
 
     function(position) {
 
-      const latitude = position.coords.latitude;
-
-      const longitude = position.coords.longitude;
-
-
       status.textContent =
-        "✅ Location found. Showing ways to look for money nearby.";
+        "✅ Location found. Here are nearby money searches.";
 
-
-      showNearbyOptions(latitude, longitude);
+      showNearbyOptions(
+        position.coords.latitude,
+        position.coords.longitude
+      );
 
     },
 
 
-    function(error) {
+    function() {
 
       status.textContent =
-        "⚠️ Location permission was not granted. You can still search manually.";
+        "⚠️ Location permission was not granted. You can still use CashFinder.";
 
     },
+
 
     {
-
       enableHighAccuracy: false,
-
       timeout: 10000,
-
       maximumAge: 300000
-
     }
 
   );
@@ -330,13 +765,18 @@ function findMoneyNearMe() {
 }
 
 
-function showNearbyOptions(latitude, longitude) {
+function showNearbyOptions(
+  latitude,
+  longitude
+) {
 
   const results =
-    document.getElementById("nearbyResults");
+    document.getElementById(
+      "nearbyResults"
+    );
 
 
-  const mapsJobs =
+  const maps =
     "https://www.google.com/maps/search/jobs+near+me/";
 
 
@@ -348,7 +788,7 @@ function showNearbyOptions(latitude, longitude) {
     "https://www.craigslist.org/search/jjj";
 
 
-  const facebook =
+  const marketplace =
     "https://www.facebook.com/marketplace/";
 
 
@@ -359,8 +799,8 @@ function showNearbyOptions(latitude, longitude) {
       <h3>🏠 Local Jobs</h3>
 
       <p>
-        Search for part-time, temporary and entry-level
-        jobs in your area.
+        Search for part-time, temporary
+        and entry-level jobs.
       </p>
 
       <a
@@ -380,17 +820,17 @@ function showNearbyOptions(latitude, longitude) {
       <h3>🗺️ Jobs Near You</h3>
 
       <p>
-        Use Google Maps to find businesses and employers
-        that may be hiring nearby.
+        Search businesses and employers
+        around your current location.
       </p>
 
       <a
         class="nearby-link"
-        href="${mapsJobs}"
+        href="${maps}"
         target="_blank"
         rel="noopener noreferrer"
       >
-        Open Nearby Jobs →
+        Open Nearby Search →
       </a>
 
     </div>
@@ -398,11 +838,11 @@ function showNearbyOptions(latitude, longitude) {
 
     <div class="nearby-result">
 
-      <h3>🧹 Local Services</h3>
+      <h3>🧹 Local Gigs</h3>
 
       <p>
-        Look for local opportunities such as cleaning,
-        moving help, yard work and other services.
+        Look for cleaning, moving,
+        yard work and other local gigs.
       </p>
 
       <a
@@ -422,13 +862,13 @@ function showNearbyOptions(latitude, longitude) {
       <h3>📦 Sell Items Nearby</h3>
 
       <p>
-        Sell electronics, games, furniture, clothing
-        and other items to people in your area.
+        Sell electronics, games, furniture,
+        clothing and other items locally.
       </p>
 
       <a
         class="nearby-link"
-        href="${facebook}"
+        href="${marketplace}"
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -440,9 +880,9 @@ function showNearbyOptions(latitude, longitude) {
 
     <div class="nearby-note">
 
-      CashFinder uses your device's location only to
-      provide a nearby-search experience. Earnings,
-      job availability and acceptance are not guaranteed.
+      CashFinder does not store your
+      location. Job availability,
+      acceptance and earnings vary.
 
     </div>
 
@@ -452,18 +892,23 @@ function showNearbyOptions(latitude, longitude) {
 
 
 /* =========================
-   MONEY CALCULATOR
+   CALCULATOR
 ========================= */
-
 
 function calculateTasks() {
 
   const earning =
-    Number(document.getElementById("earnPerTask").value);
+    Number(
+      document.getElementById(
+        "earnPerTask"
+      ).value
+    );
 
 
   const result =
-    document.getElementById("calculatorResult");
+    document.getElementById(
+      "calculatorResult"
+    );
 
 
   if (earning <= 0) {
@@ -487,19 +932,31 @@ function calculateTasks() {
 
 
   const tasks =
-    Math.ceil(moneyGoal / earning);
+    Math.ceil(
+      moneyGoal / earning
+    );
 
 
   result.innerHTML = `
 
     🎯 To reach
-    <strong>$${moneyGoal.toFixed(2)}</strong>,
+    <strong>
+      $${moneyGoal.toFixed(2)}
+    </strong>,
 
     you would need approximately
 
-    <strong>${tasks}</strong> task(s)
+    <strong>
+      ${tasks}
+    </strong>
 
-    at $${earning.toFixed(2)} each.
+    task(s) at
+
+    <strong>
+      $${earning.toFixed(2)}
+    </strong>
+
+    each.
 
   `;
 
