@@ -142,7 +142,7 @@
 </section>
 
 
-<!-- NEAR ME -->
+<!-- FIND MONEY NEAR ME -->
 
 <section class="card nearby-card">
 
@@ -166,11 +166,48 @@
 </section>
 
 
+<!-- JOB SEARCH -->
+
+<section class="card job-search-card">
+
+  <h2>💼 Find a Job</h2>
+
+  <p>
+    Search for jobs by job title, skill or type of work.
+  </p>
+
+  <input
+    id="jobSearchInput"
+    class="search-input"
+    type="search"
+    placeholder="Example: warehouse, cashier, construction..."
+  >
+
+  <input
+    id="jobLocationInput"
+    class="search-input"
+    type="text"
+    value="Modesto, CA"
+    placeholder="City, State"
+  >
+
+  <button
+    class="job-search-btn"
+    onclick="searchJobs()"
+  >
+    🔎 Search Jobs
+  </button>
+
+  <div id="jobSearchResults"></div>
+
+</section>
+
+
 <!-- SEARCH -->
 
 <section class="card">
 
-  <h2>🔎 Search</h2>
+  <h2>🔎 Search Money Opportunities</h2>
 
   <input
     id="searchInput"
@@ -309,4 +346,43 @@
       If an offer sounds too good to be true, investigate it first.
     </li>
 
-  </ul
+  </ul>
+
+</section>
+
+
+</main>
+
+
+<footer>
+
+  <strong>💰 CashFinder</strong>
+
+  <p>
+    Opportunities and earnings are not guaranteed.
+  </p>
+
+  <p>
+    CashFinder does not guarantee employment, income or payouts.
+  </p>
+
+</footer>
+
+
+<script src="app.js"></script>
+
+
+<script>
+
+if ("serviceWorker" in navigator) {
+
+  navigator.serviceWorker.register("sw.js");
+
+}
+
+</script>
+
+
+</body>
+
+</html>
