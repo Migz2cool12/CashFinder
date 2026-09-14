@@ -13,7 +13,7 @@ const opportunities = [
   {
     category: "quick",
     title: "🧹 Offer Local Services",
-    description: "Offer cleaning, yard work, moving help, car washing or other useful services.",
+    description: "Offer services such as cleaning, yard work, moving help, car washing or other tasks.",
     tags: ["Local", "No special app required"],
     link: "https://www.craigslist.org/"
   },
@@ -69,7 +69,7 @@ const opportunities = [
   {
     category: "sell",
     title: "📱 Sell Electronics",
-    description: "Old phones, tablets, headphones and other electronics may have resale value.",
+    description: "Phones, tablets, headphones and other electronics may have resale value.",
     tags: ["Reselling", "Electronics"],
     link: "https://www.ebay.com/"
   },
@@ -92,19 +92,28 @@ const opportunities = [
 
 ];
 
+
 document.addEventListener("DOMContentLoaded", function () {
+
   updateGoalDisplay();
+
   showAll();
+
 });
+
 
 function setGoal() {
 
   const input = document.getElementById("goalInput");
+
   const amount = Number(input.value);
 
   if (amount <= 0) {
+
     alert("Please enter a money goal.");
+
     return;
+
   }
 
   moneyGoal = amount;
@@ -112,17 +121,24 @@ function setGoal() {
   localStorage.setItem("moneyGoal", moneyGoal);
 
   updateGoalDisplay();
+
 }
+
 
 function updateGoalDisplay() {
 
   document.getElementById("goalDisplay").textContent =
     "🎯 Your goal: $" + moneyGoal.toFixed(2);
+
 }
 
+
 function showAll() {
+
   displayOpportunities(opportunities);
+
 }
+
 
 function showCategory(category) {
 
@@ -131,7 +147,9 @@ function showCategory(category) {
   );
 
   displayOpportunities(filtered);
+
 }
+
 
 function searchOpportunities() {
 
@@ -141,23 +159,33 @@ function searchOpportunities() {
     .trim();
 
   if (!search) {
+
     showAll();
+
     return;
+
   }
 
   const filtered = opportunities.filter(opportunity => {
 
     return (
+
       opportunity.title.toLowerCase().includes(search) ||
+
       opportunity.description.toLowerCase().includes(search) ||
+
       opportunity.category.toLowerCase().includes(search) ||
+
       opportunity.tags.join(" ").toLowerCase().includes(search)
+
     );
 
   });
 
   displayOpportunities(filtered);
+
 }
+
 
 function displayOpportunities(list) {
 
@@ -166,24 +194,36 @@ function displayOpportunities(list) {
   if (list.length === 0) {
 
     results.innerHTML = `
+
       <div class="empty">
+
         <h2>😕 No opportunities found</h2>
+
         <p>Try another search.</p>
+
       </div>
+
     `;
 
     return;
+
   }
 
+
   let html = "<h2>💵 Money Opportunities</h2>";
+
 
   list.forEach(opportunity => {
 
     const tags = opportunity.tags
+
       .map(tag => `<span class="tag">${tag}</span>`)
+
       .join("");
 
+
     html += `
+
       <div class="money-option">
 
         <h3>${opportunity.title}</h3>
@@ -191,7 +231,9 @@ function displayOpportunities(list) {
         <p>${opportunity.description}</p>
 
         <div class="tags">
+
           ${tags}
+
         </div>
 
         <a
@@ -200,40 +242,265 @@ function displayOpportunities(list) {
           target="_blank"
           rel="noopener noreferrer"
         >
+
           View Opportunity →
+
         </a>
 
       </div>
+
     `;
+
   });
 
+
   results.innerHTML = html;
+
 }
+
+
+/* =========================
+   FIND MONEY NEAR ME
+========================= */
+
+
+function findMoneyNearMe() {
+
+  const status =
+    document.getElementById("locationStatus");
+
+  const results =
+    document.getElementById("nearbyResults");
+
+
+  if (!navigator.geolocation) {
+
+    status.textContent =
+      "Your browser does not support location services.";
+
+    return;
+
+  }
+
+
+  status.textContent =
+    "📍 Finding your location...";
+
+
+  results.innerHTML = "";
+
+
+  navigator.geolocation.getCurrentPosition(
+
+    function(position) {
+
+      const latitude = position.coords.latitude;
+
+      const longitude = position.coords.longitude;
+
+
+      status.textContent =
+        "✅ Location found. Showing ways to look for money nearby.";
+
+
+      showNearbyOptions(latitude, longitude);
+
+    },
+
+
+    function(error) {
+
+      status.textContent =
+        "⚠️ Location permission was not granted. You can still search manually.";
+
+    },
+
+    {
+
+      enableHighAccuracy: false,
+
+      timeout: 10000,
+
+      maximumAge: 300000
+
+    }
+
+  );
+
+}
+
+
+function showNearbyOptions(latitude, longitude) {
+
+  const results =
+    document.getElementById("nearbyResults");
+
+
+  const mapsJobs =
+    "https://www.google.com/maps/search/jobs+near+me/";
+
+
+  const indeed =
+    "https://www.indeed.com/jobs?q=part+time";
+
+
+  const craigslist =
+    "https://www.craigslist.org/search/jjj";
+
+
+  const facebook =
+    "https://www.facebook.com/marketplace/";
+
+
+  results.innerHTML = `
+
+    <div class="nearby-result">
+
+      <h3>🏠 Local Jobs</h3>
+
+      <p>
+        Search for part-time, temporary and entry-level
+        jobs in your area.
+      </p>
+
+      <a
+        class="nearby-link"
+        href="${indeed}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Search Local Jobs →
+      </a>
+
+    </div>
+
+
+    <div class="nearby-result">
+
+      <h3>🗺️ Jobs Near You</h3>
+
+      <p>
+        Use Google Maps to find businesses and employers
+        that may be hiring nearby.
+      </p>
+
+      <a
+        class="nearby-link"
+        href="${mapsJobs}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Open Nearby Jobs →
+      </a>
+
+    </div>
+
+
+    <div class="nearby-result">
+
+      <h3>🧹 Local Services</h3>
+
+      <p>
+        Look for local opportunities such as cleaning,
+        moving help, yard work and other services.
+      </p>
+
+      <a
+        class="nearby-link"
+        href="${craigslist}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Find Local Gigs →
+      </a>
+
+    </div>
+
+
+    <div class="nearby-result">
+
+      <h3>📦 Sell Items Nearby</h3>
+
+      <p>
+        Sell electronics, games, furniture, clothing
+        and other items to people in your area.
+      </p>
+
+      <a
+        class="nearby-link"
+        href="${facebook}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Open Marketplace →
+      </a>
+
+    </div>
+
+
+    <div class="nearby-note">
+
+      CashFinder uses your device's location only to
+      provide a nearby-search experience. Earnings,
+      job availability and acceptance are not guaranteed.
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================
+   MONEY CALCULATOR
+========================= */
+
 
 function calculateTasks() {
 
   const earning =
     Number(document.getElementById("earnPerTask").value);
 
+
   const result =
     document.getElementById("calculatorResult");
 
+
   if (earning <= 0) {
-    result.innerHTML = "Enter an earning amount first.";
+
+    result.innerHTML =
+      "Enter an earning amount first.";
+
     return;
+
   }
+
 
   if (moneyGoal <= 0) {
-    result.innerHTML = "Set your money goal first.";
+
+    result.innerHTML =
+      "Set your money goal first.";
+
     return;
+
   }
 
-  const tasks = Math.ceil(moneyGoal / earning);
+
+  const tasks =
+    Math.ceil(moneyGoal / earning);
+
 
   result.innerHTML = `
-    🎯 To reach <strong>$${moneyGoal.toFixed(2)}</strong>,
+
+    🎯 To reach
+    <strong>$${moneyGoal.toFixed(2)}</strong>,
+
     you would need approximately
+
     <strong>${tasks}</strong> task(s)
+
     at $${earning.toFixed(2)} each.
+
   `;
+
 }
