@@ -1,10 +1,104 @@
 let moneyGoal = Number(localStorage.getItem("moneyGoal")) || 0;
 
+const opportunities = [
+
+  {
+    category: "quick",
+    title: "📦 Sell Items You Don't Need",
+    description: "Turn unused electronics, games, clothes, furniture and other items into cash.",
+    tags: ["Free to start", "Potentially fast"],
+    link: "https://www.facebook.com/marketplace/"
+  },
+
+  {
+    category: "quick",
+    title: "🧹 Offer Local Services",
+    description: "Offer cleaning, yard work, moving help, car washing or other useful services.",
+    tags: ["Local", "No special app required"],
+    link: "https://www.craigslist.org/"
+  },
+
+  {
+    category: "online",
+    title: "📝 Paid Surveys",
+    description: "Some research companies pay eligible users for completing surveys.",
+    tags: ["Online", "Free to start"],
+    link: "https://www.branded-surveys.com/"
+  },
+
+  {
+    category: "online",
+    title: "💻 Freelancing",
+    description: "Offer skills such as writing, graphic design, editing, programming or virtual assistance.",
+    tags: ["Online", "Skills-based"],
+    link: "https://www.fiverr.com/"
+  },
+
+  {
+    category: "online",
+    title: "🧪 Website Testing",
+    description: "Some companies pay people to test websites and provide feedback.",
+    tags: ["Online", "May require approval"],
+    link: "https://www.usertesting.com/"
+  },
+
+  {
+    category: "local",
+    title: "🚗 Delivery & Gig Work",
+    description: "Check legitimate delivery and gig platforms for opportunities in your area.",
+    tags: ["Local", "Approval required"],
+    link: "https://www.indeed.com/"
+  },
+
+  {
+    category: "local",
+    title: "🏠 Local Jobs",
+    description: "Search for part-time, temporary and entry-level jobs near you.",
+    tags: ["Local", "Job search"],
+    link: "https://www.indeed.com/"
+  },
+
+  {
+    category: "sell",
+    title: "🎮 Sell Games & Consoles",
+    description: "Compare offers for gaming systems, games and accessories you no longer use.",
+    tags: ["Reselling", "Electronics"],
+    link: "https://www.gamestop.com/"
+  },
+
+  {
+    category: "sell",
+    title: "📱 Sell Electronics",
+    description: "Old phones, tablets, headphones and other electronics may have resale value.",
+    tags: ["Reselling", "Electronics"],
+    link: "https://www.ebay.com/"
+  },
+
+  {
+    category: "sell",
+    title: "👕 Sell Clothing",
+    description: "Resell clothing that is clean, wearable and in demand.",
+    tags: ["Reselling", "Online"],
+    link: "https://www.depop.com/"
+  },
+
+  {
+    category: "rewards",
+    title: "🛒 Cashback Opportunities",
+    description: "Some established services offer cashback for qualifying purchases.",
+    tags: ["Cashback", "Terms apply"],
+    link: "https://www.rakuten.com/"
+  }
+
+];
+
 document.addEventListener("DOMContentLoaded", function () {
   updateGoalDisplay();
+  showAll();
 });
 
 function setGoal() {
+
   const input = document.getElementById("goalInput");
   const amount = Number(input.value);
 
@@ -14,179 +108,132 @@ function setGoal() {
   }
 
   moneyGoal = amount;
+
   localStorage.setItem("moneyGoal", moneyGoal);
 
   updateGoalDisplay();
 }
 
 function updateGoalDisplay() {
+
   document.getElementById("goalDisplay").textContent =
     "🎯 Your goal: $" + moneyGoal.toFixed(2);
 }
 
+function showAll() {
+  displayOpportunities(opportunities);
+}
+
 function showCategory(category) {
+
+  const filtered = opportunities.filter(
+    opportunity => opportunity.category === category
+  );
+
+  displayOpportunities(filtered);
+}
+
+function searchOpportunities() {
+
+  const search =
+    document.getElementById("searchInput").value
+    .toLowerCase()
+    .trim();
+
+  if (!search) {
+    showAll();
+    return;
+  }
+
+  const filtered = opportunities.filter(opportunity => {
+
+    return (
+      opportunity.title.toLowerCase().includes(search) ||
+      opportunity.description.toLowerCase().includes(search) ||
+      opportunity.category.toLowerCase().includes(search) ||
+      opportunity.tags.join(" ").toLowerCase().includes(search)
+    );
+
+  });
+
+  displayOpportunities(filtered);
+}
+
+function displayOpportunities(list) {
 
   const results = document.getElementById("results");
 
-  if (category === "quick") {
+  if (list.length === 0) {
+
     results.innerHTML = `
-      <h2>⚡ Quick Cash</h2>
-
-      <div class="money-option">
-        <h3>📦 Sell unused items</h3>
-        <p>Look around your home for electronics, games, clothes, tools and other items you don't use.</p>
-        <span class="tag">No upfront cost</span>
-      </div>
-
-      <div class="money-option">
-        <h3>🧹 Local odd jobs</h3>
-        <p>Offer services such as cleaning, yard work, moving help or other tasks.</p>
-        <span class="tag">Local</span>
-      </div>
-
-      <div class="money-option">
-        <h3>🚗 Gig work</h3>
-        <p>Check legitimate delivery and task platforms available in your area.</p>
-        <span class="tag">Approval may be required</span>
+      <div class="empty">
+        <h2>😕 No opportunities found</h2>
+        <p>Try another search.</p>
       </div>
     `;
+
+    return;
   }
 
-  if (category === "online") {
-    results.innerHTML = `
-      <h2>📱 Online Money</h2>
+  let html = "<h2>💵 Money Opportunities</h2>";
 
-      <div class="money-option">
-        <h3>📝 Paid surveys</h3>
-        <p>Some legitimate research platforms pay users for completing surveys.</p>
-        <span class="tag">Free to start</span>
-      </div>
+  list.forEach(opportunity => {
 
-      <div class="money-option">
-        <h3>💻 Freelancing</h3>
-        <p>Offer writing, editing, design, data entry or other skills online.</p>
-        <span class="tag">Online</span>
-      </div>
+    const tags = opportunity.tags
+      .map(tag => `<span class="tag">${tag}</span>`)
+      .join("");
 
+    html += `
       <div class="money-option">
-        <h3>🧪 Website testing</h3>
-        <p>Some companies pay people to test websites and apps and provide feedback.</p>
-        <span class="tag">Online</span>
+
+        <h3>${opportunity.title}</h3>
+
+        <p>${opportunity.description}</p>
+
+        <div class="tags">
+          ${tags}
+        </div>
+
+        <a
+          class="opportunity-btn"
+          href="${opportunity.link}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View Opportunity →
+        </a>
+
       </div>
     `;
-  }
+  });
 
-  if (category === "local") {
-    results.innerHTML = `
-      <h2>📍 Local Money</h2>
-
-      <div class="money-option">
-        <h3>🌱 Yard work</h3>
-        <p>Offer lawn cleanup, weeding, trimming and other basic yard services.</p>
-        <span class="tag">Local</span>
-      </div>
-
-      <div class="money-option">
-        <h3>📦 Moving help</h3>
-        <p>Help people move boxes, furniture or household items.</p>
-        <span class="tag">Local</span>
-      </div>
-
-      <div class="money-option">
-        <h3>🧽 Cleaning</h3>
-        <p>Offer basic home or vehicle cleaning services.</p>
-        <span class="tag">Local</span>
-      </div>
-    `;
-  }
-
-  if (category === "sell") {
-    results.innerHTML = `
-      <h2>📦 Sell Stuff</h2>
-
-      <div class="money-option">
-        <h3>🎮 Games & consoles</h3>
-        <p>Check the value of old gaming systems, games and accessories.</p>
-      </div>
-
-      <div class="money-option">
-        <h3>📱 Electronics</h3>
-        <p>Phones, tablets, headphones and other electronics may have resale value.</p>
-      </div>
-
-      <div class="money-option">
-        <h3>👕 Clothes</h3>
-        <p>Clean and desirable clothing may be resold.</p>
-      </div>
-    `;
-  }
-
-  if (category === "rewards") {
-    results.innerHTML = `
-      <h2>🎁 Rewards & Cashback</h2>
-
-      <div class="money-option">
-        <h3>💳 Legitimate promotions</h3>
-        <p>Look for promotions from established companies and carefully read their requirements.</p>
-        <span class="tag">Terms apply</span>
-      </div>
-
-      <div class="money-option">
-        <h3>🛒 Cashback</h3>
-        <p>Some services offer cashback when you make qualifying purchases.</p>
-        <span class="tag">Terms apply</span>
-      </div>
-    `;
-  }
-
-  if (category === "calculator") {
-    results.innerHTML = `
-      <h2>🧮 Money Calculator</h2>
-
-      <p>How much could you potentially earn per task?</p>
-
-      <input
-        class="calc-input"
-        type="number"
-        id="earnPerTask"
-        placeholder="Example: 10"
-      >
-
-      <button class="calc-btn" onclick="calculateTasks()">
-        Calculate
-      </button>
-
-      <div id="calculatorResult"></div>
-    `;
-  }
+  results.innerHTML = html;
 }
 
 function calculateTasks() {
 
-  const earning = Number(
-    document.getElementById("earnPerTask").value
-  );
+  const earning =
+    Number(document.getElementById("earnPerTask").value);
+
+  const result =
+    document.getElementById("calculatorResult");
 
   if (earning <= 0) {
-    alert("Enter an earning amount.");
+    result.innerHTML = "Enter an earning amount first.";
     return;
   }
 
   if (moneyGoal <= 0) {
-    alert("Set your money goal first.");
+    result.innerHTML = "Set your money goal first.";
     return;
   }
 
   const tasks = Math.ceil(moneyGoal / earning);
 
-  document.getElementById("calculatorResult").innerHTML = `
-    <div class="money-option">
-      <h3>🎯 Your target</h3>
-      <p>
-        At $${earning.toFixed(2)} per task, you would need approximately
-        <strong>${tasks} task(s)</strong> to reach your
-        <strong>$${moneyGoal.toFixed(2)}</strong> goal.
-      </p>
-    </div>
+  result.innerHTML = `
+    🎯 To reach <strong>$${moneyGoal.toFixed(2)}</strong>,
+    you would need approximately
+    <strong>${tasks}</strong> task(s)
+    at $${earning.toFixed(2)} each.
   `;
 }
