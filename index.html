@@ -28,11 +28,29 @@
       <input id="goalInput" type="number" placeholder="50">
     </div>
 
-    <button class="primary-btn" onclick="setGoal()">
-      Set My Goal
-    </button>
+    <button class="primary-btn" onclick="setGoal()">Set My Goal</button>
 
     <div id="goalDisplay">Your goal: $0.00</div>
+  </section>
+
+  <!-- FIND MONEY NEAR ME -->
+
+  <section class="nearby-card">
+
+    <h2>📍 Find Money Near Me</h2>
+
+    <p>
+      Find jobs and money-making opportunities in your area.
+    </p>
+
+    <button class="location-btn" onclick="findMoneyNearMe()">
+      📍 Find Money Near Me
+    </button>
+
+    <div id="locationStatus"></div>
+
+    <div id="nearbyResults"></div>
+
   </section>
 
   <section class="search-box">
@@ -45,20 +63,43 @@
   </section>
 
   <section class="filters">
+
     <button onclick="showAll()">All</button>
-    <button onclick="showCategory('quick')">⚡ Quick</button>
-    <button onclick="showCategory('online')">📱 Online</button>
-    <button onclick="showCategory('local')">📍 Local</button>
-    <button onclick="showCategory('sell')">📦 Sell</button>
-    <button onclick="showCategory('rewards')">🎁 Rewards</button>
+
+    <button onclick="showCategory('quick')">
+      ⚡ Quick
+    </button>
+
+    <button onclick="showCategory('online')">
+      📱 Online
+    </button>
+
+    <button onclick="showCategory('local')">
+      📍 Local
+    </button>
+
+    <button onclick="showCategory('sell')">
+      📦 Sell
+    </button>
+
+    <button onclick="showCategory('rewards')">
+      🎁 Rewards
+    </button>
+
   </section>
 
   <section id="results" class="results">
+
     <h2>🔥 Money Opportunities</h2>
-    <p>Choose a category or search for an opportunity.</p>
+
+    <p>
+      Choose a category or search for an opportunity.
+    </p>
+
   </section>
 
   <section class="calculator-card">
+
     <h2>🧮 Money Goal Calculator</h2>
 
     <input
@@ -73,22 +114,35 @@
     </button>
 
     <div id="calculatorResult"></div>
+
   </section>
 
 </main>
 
 <footer>
+
   <strong>CashFinder</strong>
-  <p>Opportunities and earnings are not guaranteed.</p>
-  <p>Never pay someone simply because they promise guaranteed income.</p>
+
+  <p>
+    Opportunities and earnings are not guaranteed.
+  </p>
+
+  <p>
+    Never pay someone simply because they promise guaranteed income.
+  </p>
+
 </footer>
 
 <script src="app.js"></script>
 
 <script>
+
 if ("serviceWorker" in navigator) {
+
   navigator.serviceWorker.register("sw.js");
+
 }
+
 </script>
 
 </body>
