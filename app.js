@@ -159,17 +159,14 @@ document.addEventListener(
 );
 
 
-/* =========================
-   GOAL
-========================= */
+/* GOAL */
 
 function setGoal() {
 
-  const input =
-    document.getElementById("goalInput");
-
   const amount =
-    Number(input.value);
+    Number(
+      document.getElementById("goalInput").value
+    );
 
 
   if (amount <= 0) {
@@ -207,14 +204,13 @@ function updateGoalDisplay() {
 }
 
 
-/* =========================
-   EARNED MONEY
-========================= */
+/* EARNED MONEY */
 
 function addEarnedMoney() {
 
   const input =
     document.getElementById("earnedInput");
+
 
   const amount =
     Number(input.value);
@@ -280,16 +276,12 @@ function updateProgress() {
   }
 
 
-  let percent =
+  const percent =
     (earnedMoney / moneyGoal) * 100;
 
 
-  const displayPercent =
-    Math.min(percent, 100);
-
-
   fill.style.width =
-    displayPercent + "%";
+    Math.min(percent, 100) + "%";
 
 
   if (percent >= 100) {
@@ -310,13 +302,11 @@ function updateProgress() {
 
 function resetProgress() {
 
-  const confirmReset =
-    confirm(
+  if (
+    !confirm(
       "Reset your earned money and goal?"
-    );
-
-
-  if (!confirmReset) {
+    )
+  ) {
 
     return;
 
@@ -344,43 +334,15 @@ function resetProgress() {
 }
 
 
-/* =========================
-   OPPORTUNITY DISPLAY
-========================= */
-
-function showAll() {
-
-  displayOpportunities(
-    opportunities
-  );
-
-}
-
-
-function showCategory(category) {
-
-  const filtered =
-    opportunities.filter(
-      opportunity =>
-        opportunity.category === category
-    );
-
-
-  displayOpportunities(
-    filtered
-  );
-
-}
-
+/* SEARCH */
 
 function searchOpportunities() {
 
   const search =
-    document.getElementById(
-      "searchInput"
-    ).value
-    .toLowerCase()
-    .trim();
+    document.getElementById("searchInput")
+      .value
+      .toLowerCase()
+      .trim();
 
 
   if (!search) {
@@ -394,57 +356,74 @@ function searchOpportunities() {
 
   const filtered =
     opportunities.filter(
-      opportunity => {
+      opportunity =>
 
-        return (
+        opportunity.title
+          .toLowerCase()
+          .includes(search)
 
-          opportunity.title
-            .toLowerCase()
-            .includes(search)
+        ||
 
-          ||
+        opportunity.description
+          .toLowerCase()
+          .includes(search)
 
-          opportunity.description
-            .toLowerCase()
-            .includes(search)
+        ||
 
-          ||
+        opportunity.category
+          .toLowerCase()
+          .includes(search)
 
-          opportunity.category
-            .toLowerCase()
-            .includes(search)
+        ||
 
-          ||
-
-          opportunity.tags
-            .join(" ")
-            .toLowerCase()
-            .includes(search)
-
-        );
-
-      }
+        opportunity.tags
+          .join(" ")
+          .toLowerCase()
+          .includes(search)
     );
 
 
+  displayOpportunities(filtered);
+
+}
+
+
+/* CATEGORIES */
+
+function showAll() {
+
   displayOpportunities(
-    filtered
+    opportunities
   );
 
 }
 
 
-/* =========================
-   SMART FILTERS
-========================= */
+function showCategory(category) {
+
+  displayOpportunities(
+
+    opportunities.filter(
+      opportunity =>
+        opportunity.category === category
+    )
+
+  );
+
+}
+
+
+/* FILTERS */
 
 function filterFree() {
 
   displayOpportunities(
+
     opportunities.filter(
       opportunity =>
         opportunity.free
     )
+
   );
 
 }
@@ -453,12 +432,14 @@ function filterFree() {
 function filterFast() {
 
   displayOpportunities(
+
     opportunities.filter(
       opportunity =>
         opportunity.payout
           .toLowerCase()
           .includes("fast")
     )
+
   );
 
 }
@@ -467,27 +448,29 @@ function filterFast() {
 function filterHighPotential() {
 
   displayOpportunities(
+
     opportunities.filter(
       opportunity =>
         opportunity.potential === "High"
     )
+
   );
 
 }
 
 
-/* =========================
-   FAVORITES
-========================= */
+/* FAVORITES */
 
 function toggleFavorite(id) {
 
-  if (favorites.includes(id)) {
+  if (
+    favorites.includes(id)
+  ) {
 
     favorites =
       favorites.filter(
-        favoriteId =>
-          favoriteId !== id
+        favorite =>
+          favorite !== id
       );
 
   } else {
@@ -510,7 +493,7 @@ function toggleFavorite(id) {
 
 function showFavorites() {
 
-  const favoriteOpportunities =
+  const list =
     opportunities.filter(
       opportunity =>
         favorites.includes(
@@ -519,9 +502,7 @@ function showFavorites() {
     );
 
 
-  if (
-    favoriteOpportunities.length === 0
-  ) {
+  if (!list.length) {
 
     document.getElementById(
       "results"
@@ -532,8 +513,8 @@ function showFavorites() {
         <h2>❤️ No Favorites Yet</h2>
 
         <p>
-          Tap the ❤️ button on an opportunity
-          to save it here.
+          Tap 🤍 on an opportunity
+          to save it.
         </p>
 
       </div>
@@ -545,26 +526,20 @@ function showFavorites() {
   }
 
 
-  displayOpportunities(
-    favoriteOpportunities
-  );
+  displayOpportunities(list);
 
 }
 
 
-/* =========================
-   RENDER OPPORTUNITIES
-========================= */
+/* DISPLAY */
 
 function displayOpportunities(list) {
 
   const results =
-    document.getElementById(
-      "results"
-    );
+    document.getElementById("results");
 
 
-  if (list.length === 0) {
+  if (!list.length) {
 
     results.innerHTML = `
 
@@ -592,7 +567,7 @@ function displayOpportunities(list) {
   list.forEach(
     opportunity => {
 
-      const isFavorite =
+      const favorite =
         favorites.includes(
           opportunity.id
         );
@@ -601,38 +576,8 @@ function displayOpportunities(list) {
       const tags =
         opportunity.tags
           .map(
-            tag => {
-
-              let className =
-                "tag";
-
-              if (
-                tag
-                  .toLowerCase()
-                  .includes("fast")
-              ) {
-
-                className += " fast";
-
-              }
-
-              if (
-                tag
-                  .toLowerCase()
-                  .includes("free")
-              ) {
-
-                className += " free";
-
-              }
-
-              return `
-                <span class="${className}">
-                  ${tag}
-                </span>
-              `;
-
-            }
+            tag =>
+              `<span class="tag">${tag}</span>`
           )
           .join("");
 
@@ -644,9 +589,8 @@ function displayOpportunities(list) {
           <button
             class="favorite-btn"
             onclick="toggleFavorite(${opportunity.id})"
-            aria-label="Favorite"
           >
-            ${isFavorite ? "❤️" : "🤍"}
+            ${favorite ? "❤️" : "🤍"}
           </button>
 
           <h3>
@@ -694,9 +638,7 @@ function displayOpportunities(list) {
 }
 
 
-/* =========================
-   FIND MONEY NEAR ME
-========================= */
+/* NEARBY */
 
 function findMoneyNearMe() {
 
@@ -711,12 +653,10 @@ function findMoneyNearMe() {
     );
 
 
-  if (
-    !navigator.geolocation
-  ) {
+  if (!navigator.geolocation) {
 
     status.textContent =
-      "Your browser does not support location services.";
+      "Location services are not supported.";
 
     return;
 
@@ -727,8 +667,7 @@ function findMoneyNearMe() {
     "📍 Finding your location...";
 
 
-  results.innerHTML =
-    "";
+  results.innerHTML = "";
 
 
   navigator.geolocation.getCurrentPosition(
@@ -736,23 +675,18 @@ function findMoneyNearMe() {
     function(position) {
 
       status.textContent =
-        "✅ Location found. Here are nearby money searches.";
+        "✅ Location found.";
 
-      showNearbyOptions(
-        position.coords.latitude,
-        position.coords.longitude
-      );
+      showNearbyOptions();
 
     },
-
 
     function() {
 
       status.textContent =
-        "⚠️ Location permission was not granted. You can still use CashFinder.";
+        "⚠️ Location permission was not granted.";
 
     },
-
 
     {
       enableHighAccuracy: false,
@@ -765,31 +699,12 @@ function findMoneyNearMe() {
 }
 
 
-function showNearbyOptions(
-  latitude,
-  longitude
-) {
+function showNearbyOptions() {
 
   const results =
     document.getElementById(
       "nearbyResults"
     );
-
-
-  const maps =
-    "https://www.google.com/maps/search/jobs+near+me/";
-
-
-  const indeed =
-    "https://www.indeed.com/jobs?q=part+time";
-
-
-  const craigslist =
-    "https://www.craigslist.org/search/jjj";
-
-
-  const marketplace =
-    "https://www.facebook.com/marketplace/";
 
 
   results.innerHTML = `
@@ -799,13 +714,13 @@ function showNearbyOptions(
       <h3>🏠 Local Jobs</h3>
 
       <p>
-        Search for part-time, temporary
-        and entry-level jobs.
+        Search for part-time,
+        temporary and entry-level jobs.
       </p>
 
       <a
         class="nearby-link"
-        href="${indeed}"
+        href="https://www.indeed.com/jobs?q=part+time&l=Modesto%2C+CA"
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -820,17 +735,17 @@ function showNearbyOptions(
       <h3>🗺️ Jobs Near You</h3>
 
       <p>
-        Search businesses and employers
-        around your current location.
+        Find employers and businesses
+        near your location.
       </p>
 
       <a
         class="nearby-link"
-        href="${maps}"
+        href="https://www.google.com/search?q=jobs+near+me"
         target="_blank"
         rel="noopener noreferrer"
       >
-        Open Nearby Search →
+        Search Nearby →
       </a>
 
     </div>
@@ -842,12 +757,12 @@ function showNearbyOptions(
 
       <p>
         Look for cleaning, moving,
-        yard work and other local gigs.
+        yard work and other local services.
       </p>
 
       <a
         class="nearby-link"
-        href="${craigslist}"
+        href="https://www.craigslist.org/search/jjj"
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -862,13 +777,13 @@ function showNearbyOptions(
       <h3>📦 Sell Items Nearby</h3>
 
       <p>
-        Sell electronics, games, furniture,
-        clothing and other items locally.
+        Sell electronics, furniture,
+        games, clothing and more.
       </p>
 
       <a
         class="nearby-link"
-        href="${marketplace}"
+        href="https://www.facebook.com/marketplace/"
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -877,12 +792,149 @@ function showNearbyOptions(
 
     </div>
 
+  `;
 
-    <div class="nearby-note">
+}
 
-      CashFinder does not store your
-      location. Job availability,
-      acceptance and earnings vary.
+
+/* JOB SEARCH */
+
+function searchJobs() {
+
+  const job =
+    document.getElementById(
+      "jobSearchInput"
+    ).value.trim();
+
+
+  const location =
+    document.getElementById(
+      "jobLocationInput"
+    ).value.trim();
+
+
+  const results =
+    document.getElementById(
+      "jobSearchResults"
+    );
+
+
+  if (!job) {
+
+    results.innerHTML = `
+
+      <div class="job-search-result">
+
+        <strong>
+          Enter a job or type of work first.
+        </strong>
+
+        <p>
+          Try warehouse, cashier,
+          construction, delivery,
+          restaurant or security.
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  const searchLocation =
+    location || "United States";
+
+
+  const indeedURL =
+    "https://www.indeed.com/jobs?q=" +
+    encodeURIComponent(job) +
+    "&l=" +
+    encodeURIComponent(searchLocation);
+
+
+  const googleURL =
+    "https://www.google.com/search?q=" +
+    encodeURIComponent(
+      job + " jobs near " + searchLocation
+    );
+
+
+  const zipURL =
+    "https://www.ziprecruiter.com/jobs-search?search=" +
+    encodeURIComponent(job) +
+    "&location=" +
+    encodeURIComponent(searchLocation);
+
+
+  results.innerHTML = `
+
+    <div class="job-search-result">
+
+      <h3>
+        💼 ${escapeHTML(job)} Jobs
+      </h3>
+
+      <p>
+        Searching for
+        <strong>${escapeHTML(job)}</strong>
+        near
+        <strong>${escapeHTML(searchLocation)}</strong>.
+      </p>
+
+      <a
+        href="${indeedURL}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Search Indeed →
+      </a>
+
+    </div>
+
+
+    <div class="job-search-result">
+
+      <h3>
+        🔎 Google Jobs
+      </h3>
+
+      <p>
+        Search Google's current job results
+        for this type of work and location.
+      </p>
+
+      <a
+        href="${googleURL}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Search Google Jobs →
+      </a>
+
+    </div>
+
+
+    <div class="job-search-result">
+
+      <h3>
+        💼 ZipRecruiter
+      </h3>
+
+      <p>
+        Check additional job listings
+        for the same search.
+      </p>
+
+      <a
+        href="${zipURL}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Search ZipRecruiter →
+      </a>
 
     </div>
 
@@ -891,9 +943,20 @@ function showNearbyOptions(
 }
 
 
-/* =========================
-   CALCULATOR
-========================= */
+function escapeHTML(text) {
+
+  const div =
+    document.createElement("div");
+
+  div.textContent =
+    text;
+
+  return div.innerHTML;
+
+}
+
+
+/* CALCULATOR */
 
 function calculateTasks() {
 
