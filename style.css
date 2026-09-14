@@ -50,6 +50,9 @@ main {
   margin-top: 0;
 }
 
+
+/* GOAL */
+
 .goal-input {
   display: flex;
   align-items: center;
@@ -74,7 +77,8 @@ main {
 
 .primary-btn,
 .calc-btn,
-.location-btn {
+.location-btn,
+.job-search-btn {
   width: 100%;
   border: 0;
   border-radius: 12px;
@@ -90,7 +94,8 @@ main {
   background: #16a34a;
 }
 
-.location-btn {
+.location-btn,
+.job-search-btn {
   background: #2563eb;
 }
 
@@ -105,18 +110,15 @@ main {
   outline: none;
 }
 
-.goal-input input:focus,
 .search-input:focus,
 .calc-input:focus,
-.earn-row input:focus {
+.earn-row input:focus,
+.goal-input input:focus {
   border-color: #2563eb;
 }
 
-#goalDisplay {
-  margin-top: 15px;
-  font-size: 19px;
-  font-weight: bold;
-}
+
+/* PROGRESS */
 
 .progress-money {
   display: flex;
@@ -183,6 +185,9 @@ main {
   cursor: pointer;
 }
 
+
+/* LOCATION */
+
 #locationStatus {
   margin-top: 15px;
   color: #4b5563;
@@ -216,6 +221,52 @@ main {
   font-weight: bold;
 }
 
+
+/* JOB SEARCH */
+
+.job-search-card {
+  border: 2px solid #2563eb;
+}
+
+.job-search-card .search-input {
+  margin-bottom: 10px;
+}
+
+.job-search-btn {
+  margin-top: 3px;
+}
+
+.job-search-result {
+  margin-top: 15px;
+  padding: 15px;
+  background: #f9fafb;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.job-search-result h3 {
+  margin-top: 0;
+}
+
+.job-search-result p {
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+.job-search-result a {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 10px 14px;
+  background: #111827;
+  color: white;
+  text-decoration: none;
+  border-radius: 9px;
+  font-weight: bold;
+}
+
+
+/* FILTERS */
+
 .filters,
 .smart-filters {
   display: flex;
@@ -240,6 +291,9 @@ main {
   flex-wrap: wrap;
   overflow: visible;
 }
+
+
+/* OPPORTUNITIES */
 
 .money-option {
   padding: 18px 0;
@@ -283,11 +337,6 @@ main {
   color: #1e40af;
 }
 
-.tag.potential {
-  background: #ede9fe;
-  color: #5b21b6;
-}
-
 .opportunity-btn {
   display: inline-block;
   margin-top: 8px;
@@ -308,6 +357,9 @@ main {
   cursor: pointer;
 }
 
+
+/* SCAM WARNING */
+
 .scam-card {
   background: #fff7ed;
   border: 1px solid #fed7aa;
@@ -322,11 +374,8 @@ main {
   line-height: 1.4;
 }
 
-#calculatorResult {
-  margin-top: 15px;
-  font-size: 17px;
-  line-height: 1.5;
-}
+
+/* EMPTY */
 
 .empty {
   text-align: center;
@@ -340,12 +389,18 @@ main {
   font-size: 12px;
 }
 
+
+/* FOOTER */
+
 footer {
   text-align: center;
   color: #6b7280;
   padding: 30px 15px;
   font-size: 12px;
 }
+
+
+/* MOBILE */
 
 @media (max-width: 450px) {
 
