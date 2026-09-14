@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111827">
+  <meta name="description" content="CashFinder helps you discover ways to make extra money.">
+  <title>CashFinder</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+</head>
+
+<body>
+
+<header>
+  <div class="logo">💰</div>
+  <h1>CashFinder</h1>
+  <p>Find your next way to make money.</p>
+</header>
+
+<main>
+
+<section class="goal-card">
+  <h2>🎯 What's your money goal?</h2>
+
+  <div class="goal-input">
+    <span>$</span>
+    <input type="number" id="goalInput" placeholder="50">
+  </div>
+
+  <button class="primary-btn" onclick="setGoal()">Set My Goal</button>
+
+  <div id="goalDisplay">Your goal: $0.00</div>
+</section>
+
+<section class="categories">
+
+  <button class="category" onclick="showCategory('quick')">
+    <div>⚡</div>
+    <strong>Quick Cash</strong>
+    <span>Ways to earn faster</span>
+  </button>
+
+  <button class="category" onclick="showCategory('online')">
+    <div>📱</div>
+    <strong>Online Money</strong>
+    <span>Earn from your phone</span>
+  </button>
+
+  <button class="category" onclick="showCategory('local')">
+    <div>📍</div>
+    <strong>Local Money</strong>
+    <span>Jobs near you</span>
+  </button>
+
+  <button class="category" onclick="showCategory('sell')">
+    <div>📦</div>
+    <strong>Sell Stuff</strong>
+    <span>Turn items into cash</span>
+  </button>
+
+  <button class="category" onclick="showCategory('rewards')">
+    <div>🎁</div>
+    <strong>Rewards</strong>
+    <span>Rewards & cashback</span>
+  </button>
+
+  <button class="category" onclick="showCategory('calculator')">
+    <div>🧮</div>
+    <strong>Calculator</strong>
+    <span>Reach your goal</span>
+  </button>
+
+</section>
+
+<section id="results" class="results">
+  <h2>🔥 Find Ways To Earn</h2>
+  <p>Select a category above to get started.</p>
+</section>
+
+</main>
+
+<footer>
+  <strong>CashFinder</strong>
+  <p>Opportunities and earnings are not guaranteed.</p>
+  <p>Always research an opportunity before providing personal information or paying money.</p>
+</footer>
+
+<script src="app.js"></script>
+
+</body>
+</html>
