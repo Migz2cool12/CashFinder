@@ -20,73 +20,76 @@
 
 <main>
 
-<section class="goal-card">
-  <h2>🎯 What's your money goal?</h2>
+  <section class="goal-card">
+    <h2>🎯 What's your money goal?</h2>
 
-  <div class="goal-input">
-    <span>$</span>
-    <input type="number" id="goalInput" placeholder="50">
-  </div>
+    <div class="goal-input">
+      <span>$</span>
+      <input id="goalInput" type="number" placeholder="50">
+    </div>
 
-  <button class="primary-btn" onclick="setGoal()">Set My Goal</button>
+    <button class="primary-btn" onclick="setGoal()">
+      Set My Goal
+    </button>
 
-  <div id="goalDisplay">Your goal: $0.00</div>
-</section>
+    <div id="goalDisplay">Your goal: $0.00</div>
+  </section>
 
-<section class="categories">
+  <section class="search-box">
+    <input
+      id="searchInput"
+      type="search"
+      placeholder="🔎 Search money opportunities..."
+      oninput="searchOpportunities()"
+    >
+  </section>
 
-  <button class="category" onclick="showCategory('quick')">
-    <div>⚡</div>
-    <strong>Quick Cash</strong>
-    <span>Ways to earn faster</span>
-  </button>
+  <section class="filters">
+    <button onclick="showAll()">All</button>
+    <button onclick="showCategory('quick')">⚡ Quick</button>
+    <button onclick="showCategory('online')">📱 Online</button>
+    <button onclick="showCategory('local')">📍 Local</button>
+    <button onclick="showCategory('sell')">📦 Sell</button>
+    <button onclick="showCategory('rewards')">🎁 Rewards</button>
+  </section>
 
-  <button class="category" onclick="showCategory('online')">
-    <div>📱</div>
-    <strong>Online Money</strong>
-    <span>Earn from your phone</span>
-  </button>
+  <section id="results" class="results">
+    <h2>🔥 Money Opportunities</h2>
+    <p>Choose a category or search for an opportunity.</p>
+  </section>
 
-  <button class="category" onclick="showCategory('local')">
-    <div>📍</div>
-    <strong>Local Money</strong>
-    <span>Jobs near you</span>
-  </button>
+  <section class="calculator-card">
+    <h2>🧮 Money Goal Calculator</h2>
 
-  <button class="category" onclick="showCategory('sell')">
-    <div>📦</div>
-    <strong>Sell Stuff</strong>
-    <span>Turn items into cash</span>
-  </button>
+    <input
+      class="calc-input"
+      id="earnPerTask"
+      type="number"
+      placeholder="How much could you earn per task?"
+    >
 
-  <button class="category" onclick="showCategory('rewards')">
-    <div>🎁</div>
-    <strong>Rewards</strong>
-    <span>Rewards & cashback</span>
-  </button>
+    <button class="calc-btn" onclick="calculateTasks()">
+      Calculate
+    </button>
 
-  <button class="category" onclick="showCategory('calculator')">
-    <div>🧮</div>
-    <strong>Calculator</strong>
-    <span>Reach your goal</span>
-  </button>
-
-</section>
-
-<section id="results" class="results">
-  <h2>🔥 Find Ways To Earn</h2>
-  <p>Select a category above to get started.</p>
-</section>
+    <div id="calculatorResult"></div>
+  </section>
 
 </main>
 
 <footer>
   <strong>CashFinder</strong>
   <p>Opportunities and earnings are not guaranteed.</p>
-  <p>Always research an opportunity before providing personal information or paying money.</p>
+  <p>Never pay someone simply because they promise guaranteed income.</p>
 </footer>
 
 <script src="app.js"></script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js");
+}
+</script>
 
 </body>
 </html>
